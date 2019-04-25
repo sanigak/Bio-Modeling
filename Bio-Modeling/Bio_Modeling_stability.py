@@ -12,7 +12,7 @@ turn = 0
 
 #max leafyPop = 100
 leafyPop = 100
-herbPop = 10
+herbPop = 5
 predPop = 1
 
 def leafyGrowth():
