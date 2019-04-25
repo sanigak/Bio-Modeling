@@ -12,8 +12,8 @@ turn = 0
 
 #max leafyPop = 100
 leafyPop = 100
-herbPop = 1
-predPop = 2
+herbPop = 10
+predPop = 1
 
 def leafyGrowth():
 
@@ -46,19 +46,40 @@ def herbStarvation():
     else:
         return 0
 
+def predGrowth():
+
+    predConc = predPop / herbPop
+    predInv = 1-predConc
+    growth = predPop * predFactor*predInv
+    return growth
+
+def predStarvation():
+    predConc = predPop / herbPop
+
+    if(predConc < .3):
+        return 0
+    elif(predConc > .3):
+        return .1 * predPop
+    elif(predConc > .4):
+        return .2 * predPop
+    elif(predConc > .5):
+        return .5 * predPop
+
+
 turn = 0
 
 leafyList = []
 herbList = []
+predList = []
 
 while turn < 500:
     turn +=1
     leafyPop = leafyPop + leafyGrowth()
     leafyPop = leafyPop - leafyConsumption()
     herbPop = herbPop + herbGrowth()
-    print("grow: " + str(herbGrowth()))
     herbPop = herbPop - herbStarvation()
-    print("strv: " + str(herbStarvation()))
+    predPop = predPop + predGrowth()
+    predPop = predPop - predStarvation()
     print()
     print()
     print("Turn: " + str(turn))
@@ -66,8 +87,12 @@ while turn < 500:
     print("Herb: " + str(herbPop))
     leafyList.append(leafyPop)
     herbList.append(herbPop)
+    predList.append(predPop)
+
+
 
 plt.plot(leafyList)
 plt.plot(herbList)
+plt.plot(predList)
 plt.show()
     
