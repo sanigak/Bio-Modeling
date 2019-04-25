@@ -2,8 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 leafyFactor = .2
-herbFactor = .034
-predFactor = .05
+herbFactor = .04
+predFactor = .02
 
 leafyMat = np.full((10,10), 100)
 herbMat = np.full((10,10), 50)
@@ -12,7 +12,7 @@ turn = 0
 
 #max leafyPop = 100
 leafyPop = 100
-herbPop = 10
+herbPop = 1
 predPop = 2
 
 def leafyGrowth():
