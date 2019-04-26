@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>0046ab8d-f6a9-4089-b4a7-731b4cfa1520</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Bio_Modeling_stability.py</StartupFile>
+    <StartupFile>Bio_Modeling_async.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -22,7 +22,10 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Bio_Modeling_stability.py" />
+    <Compile Include="Bio_Modeling_sync.py" />
+    <Compile Include="Bio_Modeling_async.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Interpreter Include="env\">
