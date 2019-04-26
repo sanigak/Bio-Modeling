@@ -1,9 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import random
 
-leafyFactor = .2
-herbFactor = .04
-predFactor = .02
+leafyFactor = .15
+herbFactor = .5
+predFactor = .5
 
 leafyMat = np.full((10,10), 100)
 herbMat = np.full((10,10), 50)
@@ -11,59 +12,54 @@ herbMat = np.full((10,10), 50)
 turn = 0 
 
 #max leafyPop = 100
-leafyPop = 100
+leafyPop = 80
 herbPop = 5
-predPop = 1
+predPop = .5
 
 def leafyGrowth():
 
     leafyConc = leafyPop / 100
     leafyInv = 1-leafyConc
     leafyGrowth = leafyPop * leafyFactor * leafyInv
-    return leafyGrowth
+    randy = random.uniform(.9, 1.1)
+    return leafyGrowth * randy
 
 def leafyConsumption():
-    return herbPop
+    return herbPop/3
 
 def herbGrowth():
 
     leafyConc = leafyPop / 100
     growth = herbPop * herbFactor*leafyConc
-    return growth
+    randy = random.uniform(.9, 1.1)
+    return growth * randy
 
 def herbStarvation():
 
     leafyConc = leafyPop / 100
+    leafyInv = 1-leafyConc
 
-    if (leafyConc < .5):
-        return .2 * herbPop
-    elif (leafyConc < .2):
-        return .4 * herbPop
-    elif (leafyConc < .1):
-        return .6*herbPop
-    elif (leafyConc < .01):
-        return .9*herbPop
-    else:
-        return 0
+    randy = random.uniform(.9, 1.1)
+    return (leafyInv*herbPop)*randy*leafyInv/2
+
+def herbPredation():
+
+    randy = random.uniform(.9, 1.1)
+    return predPop*randy
 
 def predGrowth():
 
     predConc = predPop / herbPop
     predInv = 1-predConc
     growth = predPop * predFactor*predInv
-    return growth
+    randy = random.uniform(.9, 1.1)
+    return growth*randy
 
 def predStarvation():
-    predConc = predPop / herbPop
 
-    if(predConc < .3):
-        return 0
-    elif(predConc > .3):
-        return .1 * predPop
-    elif(predConc > .4):
-        return .2 * predPop
-    elif(predConc > .5):
-        return .5 * predPop
+    predConc = predPop / herbPop
+    randy = random.uniform(.9, 1.1)
+    return predPop*predConc*randy/2
 
 
 turn = 0
@@ -72,27 +68,58 @@ leafyList = []
 herbList = []
 predList = []
 
-while turn < 500:
+while turn < 1500:
     turn +=1
-    leafyPop = leafyPop + leafyGrowth()
-    leafyPop = leafyPop - leafyConsumption()
-    herbPop = herbPop + herbGrowth()
-    herbPop = herbPop - herbStarvation()
-    predPop = predPop + predGrowth()
-    predPop = predPop - predStarvation()
-    print()
-    print()
     print("Turn: " + str(turn))
+    leafyPop = leafyPop + leafyGrowth()
+    print("Leafy growth: " + str(leafyGrowth()))
+    leafyPop = leafyPop - leafyConsumption()
+    print("Leafy cons: " + str(leafyConsumption()))
+    if (leafyPop > 100):
+        leafyPop = 100
+    if (leafyPop < 0):
+        leafyPop = 1
+
+    herbPop = herbPop + herbGrowth()
+    print()
+    print("Herb growth: " + str(herbGrowth()))
+    herbPop = herbPop - herbStarvation()
+    print("Herb starv: " + str(herbStarvation()))
+    herbPop = herbPop - herbPredation()
+    print("Herb pred: " + str(herbPredation()))
+    if (herbPop < 0):
+        herbPop = .002
+
+    predPop = predPop + predGrowth()
+    print()
+    print("Pred growth: " + str(predGrowth()))
+    predPop = predPop - predStarvation()
+    print("Pred starv: " + str(predStarvation()))
+    if (predPop < 0):
+        print("blern")
+        predPop = .001
+
+    print()
+    print()
+    
     print("Leaf: " + str(leafyPop))
     print("Herb: " + str(herbPop))
+    print("Pred: " + str(predPop))
+    print()
+    print()
+    print()
+    print()
+    print()
+    print()
     leafyList.append(leafyPop)
     herbList.append(herbPop)
     predList.append(predPop)
 
 
 
-plt.plot(leafyList)
-plt.plot(herbList)
-plt.plot(predList)
+plt.plot(leafyList, label = "Leafy")
+plt.plot(herbList, label = "Herb")
+plt.plot(predList, label = "Pred")
+plt.legend()
 plt.show()
     
