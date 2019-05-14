@@ -4,7 +4,7 @@ import random
 
 leafyFactor = .15
 herbFactor = .5
-predFactor = 1
+predFactor = .7
 
 leafyMat = np.full((10,10), 100)
 herbMat = np.full((10,10), 50)
@@ -68,7 +68,7 @@ leafyList = [80,80]
 herbList = [5,5]
 predList = [.5,.5]
 
-while turn < 500:
+while turn < 1000:
     turn +=1
     print("Turn: " + str(turn))
     leafyPop = leafyPop + leafyGrowth()
